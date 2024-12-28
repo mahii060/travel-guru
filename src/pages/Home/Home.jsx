@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import background from "../../assets/images/Rectangle1.png"
 import sajek from "../../assets/images/Sajek.png"
 const Home = () => {
@@ -18,7 +19,7 @@ const Home = () => {
                         <p className="py-6">
                             Cox`s Bazar is a city, fishing port, tourism <br />centre and district headquarters in southeastern <br /> Bangladesh. It is famous mostly for its long natural sandy beach, and it ...
                         </p>
-                        <button className="btn btn-warning">Booking</button>
+                        <Link to="/login" className="btn btn-warning">Booking</Link>
                     </div>
                 </div>
             </div>

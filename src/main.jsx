@@ -11,6 +11,9 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import NewsPage from './pages/NewsPage/NewsPage';
+import Destination from './pages/Destination/Destination';
+import Blog from './pages/Blog/Blog';
+import Contact from './pages/Contact/Contact';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
       {
         path: "/news",
         element: <NewsPage />
+      },
+      {
+        path: "/destination",
+        element: <Destination />
+      },
+      {
+        path: "/blog",
+        element: <Blog />
+      },
+      {
+        path: "/contact",
+        element: <Contact />
       },
     ]
   },
