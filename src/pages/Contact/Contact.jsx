@@ -62,7 +62,7 @@ const Contact = () => {
                         <div className="mt-6">
                             <h3 className="text-xl font-semibold mb-2">Follow Us</h3>
                             <div className="flex space-x-4">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-800 text-2xl">
+                                <a target='_blank' href="https://x.com/mahi21_271" className="text-indigo-600 hover:text-indigo-800 text-2xl">
                                     <FaFacebook />
                                 </a>
                                 <a href="#" className="text-indigo-600 hover:text-indigo-800 text-2xl">

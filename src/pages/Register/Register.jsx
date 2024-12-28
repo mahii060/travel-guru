@@ -2,16 +2,37 @@
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from 'react';
+import useAuth from '../../utils/useAuth';
+import { useForm } from 'react-hook-form';
 
 const Register = () => {
+    // Handling show password
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    // Auth info
+    const { name } = useAuth()
+
+
+    // Form validation
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
+
+    const onSubmit = (data) => console.log(data)
+
+
+
+
+
     return (
         <div className="flex justify-center items-center">
             <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 bg-gray-50 text-gray-800">
                 <h2 className="mb-3 text-3xl font-semibold text-center">Register</h2>
 
-                <form noValidate="" action="" className="space-y-8">
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-8">
                     <div className="space-y-4">
                         <div className="space-y-2">
                             <label htmlFor="userName" className="block text-sm">User Name</label>
@@ -19,7 +40,17 @@ const Register = () => {
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="email" className="block text-sm">Email address</label>
-                            <input type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
+                            <input type="email" id="email" placeholder="leroy@jenkins.com"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,4}$/,
+                                        message: "Please enter a valid email address"
+                                    }
+                                })}
+                                className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
+                            {/* errors will return when field validation fails  */}
+                            {errors.email && <span className='text-red-600'>{errors.email.message}</span>}
                         </div>
                         <div className="space-y-2 relative">
                             <div className="flex justify-between">
@@ -28,9 +59,9 @@ const Register = () => {
                             <div className="relative">
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    name="password"
                                     id="password"
                                     placeholder="Password"
+                                    {...register("password", { required: "Password is required" })}
                                     className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600"
                                 />
                                 <button
@@ -42,6 +73,7 @@ const Register = () => {
                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                             </div>
+                            {errors.password && <span className='text-red-600'>This field is required</span>}
                         </div>
                         <div className="space-y-2 relative">
                             <div className="flex justify-between">
@@ -50,9 +82,9 @@ const Register = () => {
                             <div className="relative">
                                 <input
                                     type={showConfirmPassword ? "text" : "password"}
-                                    name="confirmPassword"
                                     id="confirmPassword"
                                     placeholder="Confirm Password"
+                                    {...register("confirmPassword", { required: "Confirm password is required" })}
                                     className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600"
                                 />
                                 <button
@@ -64,9 +96,10 @@ const Register = () => {
                                     {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                             </div>
+                            {errors.confirmPassword && <span className='text-red-600'>This field is required</span>}
                         </div>
                     </div>
-                    <button type="button" className="btn btn-warning w-full ">Sign Up</button>
+                    <button type="submit" className="btn btn-warning w-full ">Sign Up</button>
                 </form>
                 <p className="text-sm text-center text-gray-600">Already have account?
                     <Link to="/login" rel="noopener noreferrer" className="btn btn-link">Sign In</Link>
@@ -102,8 +135,6 @@ const Register = () => {
                         <p>Login with Twitter</p>
                     </button>
                 </div>
-
-
             </div>
         </div>
     );
