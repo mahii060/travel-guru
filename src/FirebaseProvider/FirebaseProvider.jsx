@@ -1,8 +1,11 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { AuthContext } from "../utils";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+
+const googleProvider = new GoogleAuthProvider();
+console.log(googleProvider);
 
 const FirebaseProvider = ({ children }) => {
     const [user, setUser] = useState(null)
@@ -16,6 +19,10 @@ const FirebaseProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    // Sign in with google
+    const googleSignIn = () => {
+        return signInWithPopup(auth, googleProvider)
+    }
     // Sign out user
     const signOutUser = () => {
         return signOut(auth);
@@ -40,6 +47,7 @@ const FirebaseProvider = ({ children }) => {
         createUser,
         signInUser,
         signOutUser,
+        googleSignIn,
         user,
         setUser,
     }
