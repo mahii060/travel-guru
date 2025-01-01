@@ -4,6 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from 'react';
 import useAuth from '../../utils/useAuth';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 const Register = () => {
     // Handling show password
@@ -19,25 +20,31 @@ const Register = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm()
 
     const onSubmit = (data) => {
         console.log(data)
-        const { email, password } = data;
-        createUser(email, password)
-            .then(result => {
-                // Created user successfully
-                console.log(result.user);
-            })
-            .catch(error => {
-                // Encountered error
-                console.error(error)
-            })
+        const { email, password, confirmPassword } = data;
+        if (password === confirmPassword) {
+            //
+            createUser(email, password)
+                .then(result => {
+                    // Created user successfully
+                    console.log(result.user);
+                    reset()
+                })
+                .catch(error => {
+                    // Encountered error
+                    console.error(error)
+                })
+        }
+        else {
+            return toast.error('Password and Confirm Password must match');
+        }
+
     }
-
-
-
 
 
     return (

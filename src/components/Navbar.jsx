@@ -1,7 +1,22 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png"
+import useAuth from "../utils/useAuth";
 
 const Navbar = () => {
+    const { user, signOutUser, setUser } = useAuth();
+    console.log(user);
+
+    // Handle user sign out
+    const handleSignOut = () => {
+        signOutUser()
+            .then(() => {
+                console.log("user signed Out");
+                setUser(null)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/news">News</NavLink></li>
@@ -43,7 +58,12 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link to="/login" className="btn btn-warning">Login</Link>
+                {
+                    user?.email ? <a onClick={handleSignOut} className="btn btn-warning">Sign Out</a>
+                        :
+                        <Link to="/login" className="btn btn-warning">Login</Link>
+                }
+
             </div>
         </div>
     );

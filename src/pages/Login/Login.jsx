@@ -1,10 +1,37 @@
 import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from 'react';
+import useAuth from "../../utils/useAuth";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
+    //Auth info
+    const { signInUser, setUser } = useAuth()
+
+    // Form validation
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm()
+
+
+    const onSubmit = (data) => {
+        console.log(data)
+        const { email, password } = data;
+        signInUser(email, password)
+            .then(result => {
+                console.log(result.user)
+                setUser(result.user)
+                reset();
+            })
+            .catch(error => console.error(error))
+    }
+
+    // Toggling between show & hide password
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -46,11 +73,22 @@ const Login = () => {
                     <p className="px-3 text-gray-600">OR</p>
                     <hr className="w-full text-gray-600" />
                 </div>
-                <form noValidate="" action="" className="space-y-8">
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-8">
                     <div className="space-y-4">
                         <div className="space-y-2">
                             <label htmlFor="email" className="block text-sm">Email address</label>
-                            <input type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
+                            <input type="email" name="email" id="email" placeholder="leroy@jenkins.com"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,4}$/,
+                                        message: "Please enter a valid email address"
+                                    }
+                                })}
+                                className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600"
+                            />
+                            {/* errors will return when field validation fails  */}
+                            {errors.email && <span className='text-red-600'>{errors.email.message}</span>}
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="password" className="text-sm">Password</label>
@@ -61,6 +99,7 @@ const Login = () => {
                                     id="password"
                                     placeholder="Password"
                                     className="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600 pr-10"
+                                    {...register("password", { required: "Password is required" })}
                                 />
                                 <button
                                     type="button"
@@ -71,6 +110,7 @@ const Login = () => {
                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                             </div>
+                            {errors.password && <span className='text-red-600'>This field is required</span>}
                             <div className="text-right">
                                 <a href="#" className="text-sm text-blue-600 hover:underline">
                                     Forgot Password?
@@ -78,7 +118,7 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-                    <button type="button" className="btn btn-warning w-full ">Sign In</button>
+                    <button type="submit" className="btn btn-warning w-full ">Sign In</button>
                 </form>
             </div>
         </div>
