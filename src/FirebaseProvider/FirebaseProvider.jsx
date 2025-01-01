@@ -4,12 +4,12 @@ import { AuthContext } from "../utils";
 import PropTypes from "prop-types";
 
 const FirebaseProvider = ({ children }) => {
+    // Create a new user
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
     const authInfo = {
-        name: 'Mahi',
         createUser,
     }
     return (

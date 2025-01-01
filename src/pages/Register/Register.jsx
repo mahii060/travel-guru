@@ -11,7 +11,8 @@ const Register = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     // Auth info
-    const { name } = useAuth()
+    const { createUser } = useAuth();
+    // console.log(createUser);
 
 
     // Form validation
@@ -21,7 +22,19 @@ const Register = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+        console.log(data)
+        const { email, password } = data;
+        createUser(email, password)
+            .then(result => {
+                // Created user successfully
+                console.log(result.user);
+            })
+            .catch(error => {
+                // Encountered error
+                console.error(error)
+            })
+    }
 
 
 
