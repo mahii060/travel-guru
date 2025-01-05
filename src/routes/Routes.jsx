@@ -8,6 +8,7 @@ import NewsPage from "../pages/NewsPage/NewsPage";
 import Destination from "../pages/Destination/Destination";
 import Blog from "../pages/Blog/Blog";
 import Contact from "../pages/Contact/Contact";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([
     {
@@ -29,15 +30,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/news",
-                element: <NewsPage />
+                element: <ProtectedRoute><NewsPage /></ProtectedRoute>
             },
             {
                 path: "/destination",
-                element: <Destination />
+                element: <ProtectedRoute><Destination /></ProtectedRoute>
             },
             {
                 path: "/blog",
-                element: <Blog />
+                element: <ProtectedRoute><Blog /></ProtectedRoute>
             },
             {
                 path: "/contact",

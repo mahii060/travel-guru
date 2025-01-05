@@ -1,10 +1,12 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { AuthContext } from "../utils";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+const githubProvider = new GithubAuthProvider();
 console.log(googleProvider);
 
 const FirebaseProvider = ({ children }) => {
@@ -22,6 +24,15 @@ const FirebaseProvider = ({ children }) => {
     // Sign in with google
     const googleSignIn = () => {
         return signInWithPopup(auth, googleProvider)
+    }
+    // Sign in with facebook
+    const facebookSignIn = () => {
+        return signInWithPopup(auth, facebookProvider);
+    }
+
+    // Sign in with github
+    const githubSignIn = () => {
+        return signInWithPopup(auth, githubProvider);
     }
     // Sign out user
     const signOutUser = () => {
@@ -47,7 +58,9 @@ const FirebaseProvider = ({ children }) => {
         createUser,
         signInUser,
         signOutUser,
+        githubSignIn,
         googleSignIn,
+        facebookSignIn,
         user,
         setUser,
     }
@@ -56,7 +69,7 @@ const FirebaseProvider = ({ children }) => {
             {children}
         </AuthContext.Provider>
     );
-}
+};
 FirebaseProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
